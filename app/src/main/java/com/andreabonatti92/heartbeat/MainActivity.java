@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
                 Collections.reverse(values);
                 // Aggiungo un valore a caso ogni volta
                 // Avendo solo 50 punti rappresentati conservo solo gli ultimi 50
-                final int random = new Random().nextInt(200) + -100;
+                final int random = new Random().nextInt(1500) + -750;
                 values.add(random);
                 if(values.size() > 50) {
                     values.remove(0);

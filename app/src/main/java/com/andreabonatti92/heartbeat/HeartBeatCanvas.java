@@ -11,6 +11,7 @@ import java.util.ArrayList;
 public class HeartBeatCanvas extends View {
 
     private Paint paint = new Paint();
+    private Paint rulerPaint = new Paint();
     private ArrayList<Integer> points;
 
     public HeartBeatCanvas(Context context, ArrayList<Integer> points) {
@@ -18,6 +19,10 @@ public class HeartBeatCanvas extends View {
         paint.setColor(Color.BLACK);
         paint.setStrokeWidth(10);
         paint.setStrokeCap(Paint.Cap.ROUND);
+        rulerPaint.setColor(Color.BLACK);
+        int scaledSize = getResources().getDimensionPixelSize(R.dimen.font_size);
+        rulerPaint.setTextSize(scaledSize);
+        rulerPaint.setTextAlign(Paint.Align.RIGHT);
         this.points = points;
     }
 
@@ -29,6 +34,34 @@ public class HeartBeatCanvas extends View {
         int canvasHeight = getHeight();
         int centerX = (getWidth() / 2);
         int centerY = (getHeight() / 2);
+
+        // scala dei possibili valori
+        int halfHeight = canvasHeight / 2;
+        int rulerStep = halfHeight / 5;
+
+        for (int i = 1; i < 5; i++) {
+            canvas.drawText("+" + i * rulerStep, canvasWidth, centerY - i * rulerStep, rulerPaint);
+        }
+        canvas.drawText("0", canvasWidth, centerY, rulerPaint);
+        for (int i = 1; i < 5; i++) {
+            canvas.drawText(String.valueOf(i * -rulerStep), canvasWidth, centerY + i * rulerStep, rulerPaint);
+        }
+
+        // griglia
+        // righe
+        for (int i = 1; i < 5; i++) {
+            canvas.drawLine(0, centerY - i * rulerStep, canvasWidth, centerY - i * rulerStep, rulerPaint);
+        }
+        canvas.drawLine(0, centerY, canvasWidth, centerY, rulerPaint);
+        for (int i = 1; i < 5; i++) {
+            canvas.drawLine(0, centerY + i * rulerStep, canvasWidth, centerY + i * rulerStep, rulerPaint);
+        }
+        // colonne
+        int halfWidth = canvasWidth / 2;
+        int columnStep = canvasWidth / 6;
+        for(int i = 1; i < 6; i++){
+            canvas.drawLine(i * columnStep, 0, i * columnStep, canvasHeight, rulerPaint);
+        }
 
         // ri-elaboro l'ordine dei valori in modo da porteli rappresentare correttamente
         ArrayList<Integer> yValues = new ArrayList<>();
